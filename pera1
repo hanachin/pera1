@@ -13,7 +13,25 @@ unless File.exist?(file)
 end
 
 require 'erb'
-template = DATA.read
+template = <<~GEMSPEC
+Gem::Specification.new do |s|
+  s.name     = <%= name.inspect %>
+  s.version  = <%= version.inspect %>
+  s.license  = <%= license.inspect %>
+  s.summary  = <%= summary.inspect %>
+  s.author   = <%= author.inspect %>
+  <%- unless email.empty? -%>
+  s.email    = <%= email.inspect %>
+  <%- end -%>
+  <%- unless homepage.empty? -%>
+  s.homepage = <%= homepage.inspect %>
+  <%- end -%>
+  <%- if File.executable?(file) -%>
+  s.bindir = '.'
+  s.executables << <%= file.inspect %>
+  <%- end -%>
+end
+GEMSPEC
 
 default = lambda do
   name     = File.basename(file, '.rb')
@@ -44,22 +62,3 @@ gemspec = ERB.new(template, nil, '-').result(config)
 dir = File.dirname(file)
 gemspec_path = File.join(dir, "#{config.local_variable_get('name')}.gemspec")
 File.write(gemspec_path, gemspec)
-
-__END__
-Gem::Specification.new do |s|
-  s.name     = <%= name.inspect %>
-  s.version  = <%= version.inspect %>
-  s.license  = <%= license.inspect %>
-  s.summary  = <%= summary.inspect %>
-  s.author   = <%= author.inspect %>
-  <%- unless email.empty? -%>
-  s.email    = <%= email.inspect %>
-  <%- end -%>
-  <%- unless homepage.empty? -%>
-  s.homepage = <%= homepage.inspect %>
-  <%- end -%>
-  <%- if File.executable?(file) -%>
-  s.bindir = '.'
-  s.executables << <%= file.inspect %>
-  <%- end -%>
-end
