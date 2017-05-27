@@ -7,6 +7,7 @@ Gem::Specification.new do |s|
   s.email    = "hanachin@gmail.com"
   s.homepage = "https://github.com/hanachin/pera1"
   s.require_paths = ['.']
+  s.files = ["pera1"]
   s.bindir = '.'
   s.executables << "pera1"
 end

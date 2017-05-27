@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.homepage = <%= homepage.inspect %>
   <%- end -%>
   s.require_paths = ['.']
+  s.files = [<%= file.inspect %>]
   <%- if File.executable?(file) -%>
   s.bindir = '.'
   s.executables << <%= file.inspect %>
