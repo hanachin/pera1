@@ -31,7 +31,12 @@ config = default.call
 require 'rubygems/user_interaction'
 ui = Gem::ConsoleUI.new
 RubyVM::InstructionSequence.of(default).to_a[10].each do |c|
-  a = ui.ask("#{c}: (#{config.local_variable_get(c)})")
+  v = config.local_variable_get(c)
+  if v.empty?
+    a = ui.ask("#{c}:")
+  else
+    a = ui.ask("#{c}: (#{v})")
+  end
   config.local_variable_set(c, a) unless a.empty?
 end
 gemspec = ERB.new(template, nil, '-').result(config)
