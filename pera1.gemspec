@@ -6,6 +6,7 @@ Gem::Specification.new do |s|
   s.author   = "Seiei Miyagi"
   s.email    = "hanachin@gmail.com"
   s.homepage = "https://github.com/hanachin/pera1"
+  s.require_paths = ['.']
   s.bindir = '.'
   s.executables << "pera1"
 end
